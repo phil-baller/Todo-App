@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import './todo.json';
 import { Trash } from 'lucide-react';
+import axios from 'axios';
 
 
 function ToDoContainer({ children }) {
@@ -20,7 +21,7 @@ function TodoHeader() {
 }
 
 function TodoForm() {
-  const [todo, setTodo] = useState(["someone"]);
+  const [todo, setTodo] = useState([]);
   const [todoTask, setTodoTask] = useState('');
 
   function CreateTodoTask(e) {
@@ -31,9 +32,33 @@ function TodoForm() {
     }
   }
 
+  const [taskData, setData] = useState([]);
+
+  const getData = async () => {
+    const response = await fetch('http://127.0.0.1:3001/api/tasks')
+    try {
+      const responseJson = await response.json();
+      setData(responseJson);
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+
+  useEffect(() => {
+    getData()
+  }, [])
+
   function deleteTodoTask(index) {
-    const updateTasks = todo.filter((_, id) => id !== index);
-    setTodo(updateTasks);
+    axios.delete(`http://127.0.0.1:3001/api/tasks/${index}`)
+      .then((res) => {
+        setTodo(res.data)
+        console.log(`Task ${index} deleted successfully`);
+      })
+
+
+    // const updateTasks = todo.filter((_, id) => id !== index);
+    // setTodo(updateTasks);
   }
 
   return (
@@ -47,12 +72,15 @@ function TodoForm() {
       </form>
       <div className="grid grid-cols-3 gap-6 mt-4" >
         {
-          todo.map((item, id) => (
-            <div className="flex flex-row justify-between" key={id}>
-              <div className="flex flex-row">
-                <p className="ml-2 font-medium text-lg text-neutral-700 w-80">~ {item}</p>
+          taskData.map((item) => (
+            <div className="flex flex-row justify-between" key={item.id}>
+              <div className="flex flex-row md:flex-col">
+                <div className='flex flex-col'>
+                  <p className="ml-2 font-medium text-lg text-neutral-700 w-80">~ {item.name}</p>
+                  <p className="ml-2 font-medium text-lg text-neutral-700 w-80">~ {item.description}</p>
+                </div>
               </div>
-              <Trash className="text-red-400 hover:text-red-700 hover:fill-red-600" onClick={() => deleteTodoTask(id)} />
+              <Trash className="text-red-400 hover:text-red-700 hover:fill-red-600" onClick={() => deleteTodoTask(item.id)} />
             </div>
           ))
         }
