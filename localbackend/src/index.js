@@ -3,7 +3,7 @@ const fs = require('fs')
 const cors = require('cors');
 const bodyParser = require('body-parser');
 
-const PORT = 5001;
+const PORT = process.env.PORT || 5001
 const task = express();
 task.use(cors());
 task.use(bodyParser.json());
