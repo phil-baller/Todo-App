@@ -83,22 +83,26 @@ function TodoForm() {
         }} />
         <button className="bg-purple-800 rounded-md p-2 my-2 text-white hover:bg-purple-600 font-medium" type='submit'>Add</button>
       </form>
-      <div className="grid grid-cols-3 gap-6 mt-4" >
+      <div className=" flex-col lg:grid lg:grid-cols-3 mt-8 lg:gap-6 lg:mt-4" >
 
         {/* Mapping taskData to list of tasks */}
         {
           taskData.map((item) => (
-            <div className="flex flex-col lg:flex-row justify-start" key={item.id}>
-              <div className="flex flex-col">
-                <div className='flex flex-col'>
-                  <p className="ml-2 font-medium text-lg text-purple-800 w-80">~ {item.name}</p>
-                  <p className="ml-2 font-medium text-lg text-neutral-700 w-80">{item.description}</p>
+            <div className='flex flex-col gap-2 items-center'>
+              <div className="flex flex-row justify-start" key={item.id}>
+                <div className="flex flex-col">
+                  <div className='flex flex-col'>
+                    <p className="ml-2 font-medium text-lg text-purple-800 w-80">~ {item.name}</p>
+                    <p className="ml-2 font-medium text-lg text-neutral-700 w-80">{item.description}</p>
+                  </div>
                 </div>
+                <Trash className="text-red-400 hover:text-red-700 hover:fill-red-600" onClick={() => deleteTodoTask(item.id)} />
               </div>
-              <Trash className="text-red-400 hover:text-red-700 hover:fill-red-600" onClick={() => deleteTodoTask(item.id)} />
+              <hr className='w-full h-.5 my-2 bg-neutral-400' />
             </div>
           ))
         }
+
       </div>
     </div>
   )
