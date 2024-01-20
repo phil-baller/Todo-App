@@ -31,8 +31,6 @@ task.post('/', (req, res) => {
     allTasks.push(newTask)
     fs.writeFile('./src/tasks.json', JSON.stringify(allTasks), (err) => {
         if (err) console.log(`Error writing to file, ${err}`);
-        console.log(allTasks)
-        console.log(newTask)
         console.log('The file has been saved!');
     });
     res.json(allTasks)
@@ -60,7 +58,5 @@ task.put('/:id', (req, res) => {
     allTasks[taskIndex].description = req.body.description
     res.json(allTasks)
 })
-
-
 
 module.exports = task;

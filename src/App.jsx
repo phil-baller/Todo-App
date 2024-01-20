@@ -6,7 +6,7 @@ import axios from 'axios';
 
 function ToDoContainer({ children }) {
   return (
-    <div className="w-fit h-fit py-8 bg-purple-100 rounded-md mx-auto my-32 flex flex-col px-4">
+    <div className="w-fit h-fit py-8 bg-purple-100 rounded-md mx-auto my-auto lg:my-32 flex flex-col px-4">
       {children}
     </div>
   )
@@ -88,8 +88,8 @@ function TodoForm() {
         {/* Mapping taskData to list of tasks */}
         {
           taskData.map((item) => (
-            <div className="flex flex-row justify-between" key={item.id}>
-              <div className="flex flex-row md:flex-col">
+            <div className="flex flex-col lg:flex-row justify-start" key={item.id}>
+              <div className="flex flex-col">
                 <div className='flex flex-col'>
                   <p className="ml-2 font-medium text-lg text-purple-800 w-80">~ {item.name}</p>
                   <p className="ml-2 font-medium text-lg text-neutral-700 w-80">{item.description}</p>
